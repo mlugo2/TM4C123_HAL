@@ -1,35 +1,48 @@
-#include <stdbool.h>
-#include <stdint.h>
+#include "Gpio.h"
 
-#include "inc/hw_types.h"
-#include "inc/hw_gpio.h"
-#include "inc/hw_memmap.h"
-#include "inc/hw_sysctl.h"
-#include "driverlib/gpio.h"
-#include "driverlib/rom.h"
-#include "driverlib/sysctl.h"
-#include "driverlib/pin_map.h"
-#include "driverlib/can.h"
+#define SYSCTL_SYSDIV_10		0x04c00000
 
-#define LED_RED GPIO_PIN_1
-#define LED_BLUE GPIO_PIN_2
-#define LED_GREEN GPIO_PIN_3
+#define SYSCTL_RCGC2_GPIOA	0x00000001
+#define SYSCTL_RCGC2_GPIOB	0x00000002
+#define SYSCTL_RCGC2_GPIOC	0x00000004
+#define SYSCTL_RCGC2_GPIOD	0x00000008
+#define SYSCTL_RCGC2_GPIOE	0x00000010
+#define SYSCTL_RCGC2_GPIOF	0x00000020
 
-int main()
+extern GpioConfig_t GpioConfig[];
+
+void Enable_IRQ(void)
 {
-    ROM_SysCtlClockSet(SYSCTL_SYSDIV_4|SYSCTL_USE_PLL|SYSCTL_XTAL_16MHZ|SYSCTL_OSC_MAIN);
-    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
-    ROM_GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, LED_RED|LED_BLUE|LED_GREEN);
-
-   for (;;) {
-	// set the red LED pin high, others low
-	ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, LED_RED);
-	ROM_SysCtlDelay(5000000);
-	ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 0);
-	ROM_SysCtlDelay(5000000);
-	ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, LED_BLUE);
-	ROM_SysCtlDelay(5000000);
-	ROM_GPIOPinWrite(GPIO_PORTF_BASE, LED_RED|LED_GREEN|LED_BLUE, 0);
-    }
-
+	__asm 
+	(
+		"MOV R2, 0x0\n"
+		"MSR BASEPRI, R2\n"
+		"CPSIE I"
+	);
 }
+
+int main(void)
+{
+	volatile uint32_t RCC;
+	RCC = (SYSCTL_RCC_XTAL_16MHZ|SYSCTL_RCC_USESYSDIV|SYSCTL_SYSDIV_10);
+	SYSCTL_RCC_R = RCC;
+	
+	SYSCTL_RCGC2_R = (SYSCTL_RCGC2_GPIOA|SYSCTL_RCGC2_GPIOB|SYSCTL_RCGC2_GPIOC|SYSCTL_RCGC2_GPIOD|SYSCTL_RCGC2_GPIOE|SYSCTL_RCGC2_GPIOF);
+
+	// Configure GPIO
+	Gpio_Init(GpioConfig);
+	
+	// enable interrupt PD3 in NVIC and set priority to 3
+	NVIC_PRI0_R = 0x60000000;
+	NVIC_EN0_R = 0x8;
+	
+	Enable_IRQ();
+	
+	while(1) { GPIO_PORTB_DATA_R = 0x0;	}
+}
+
+void GPIOD_Handler(void)
+{
+	GPIO_PORTB_DATA_R = 0x1;
+}
+
