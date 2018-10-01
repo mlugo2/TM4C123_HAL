@@ -181,7 +181,7 @@ void Gpio_Init(GpioConfig_t * Config)
 		}
 
 		// Set Interrupt Event register bit for this channel
-		if (Config[i].Event == DETECT_HI)
+		if (Config[i].Event == RISING)
 		{
 			*portIEV[port_num] |= (1UL<<(pin_num));
 		}
@@ -191,7 +191,7 @@ void Gpio_Init(GpioConfig_t * Config)
 		}
 
 		// Set Interrupt Clear register bit for this channel
-		if (Config[i].Clear == CLEAR_ISR)
+		if (Config[i].Clear == CLEAR)
 		{
 			*portICR[port_num] |= (1UL<<(pin_num));
 		}

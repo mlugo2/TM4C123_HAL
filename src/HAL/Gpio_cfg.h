@@ -115,13 +115,22 @@ typedef enum
 /**
 *	Defines the possible alternative function modes for each pin
 */
-
 typedef enum
 {
-	GPIO,											/**< Pin works in GPIO mode */
+	GPIO,										/**< Pin works in GPIO mode */
 	PERIPH,										/**< Pin controlled by certain peripheral */
 	FUNCT_MAX									/**< MAX FUNCTIONS AVAILABLE */
 } GpioFunction_t;
+
+/**
+*	Defines the possible port control functions for each pin
+*/
+typedef enum
+{
+	OFF,
+	ON,
+	PORT_MAX
+} GpioPortControl_t;
 
 /**
 *	Defines the possible directions of a pin (input/output).
@@ -168,8 +177,8 @@ typedef enum
 */
 typedef enum
 {
-	DETECT_LO,
-	DETECT_HI,
+	FALLING,
+	RISING,
 	MAX_EVENT_MODE
 } GpioEvent_t;
 
@@ -178,8 +187,8 @@ typedef enum
 */
 typedef enum
 {
-	NO_EFFECT,
-	CLEAR_ISR,
+	NOFX,
+	CLEAR,
 	MAX_NUM
 } GpioClear_t;
 
@@ -199,15 +208,16 @@ typedef enum
 */
 typedef struct
 {
-	GpioChannel_t Channel;				/**< The I/O pin	*/
+	GpioChannel_t Channel;				/**< The I/O pin			*/
 	GpioFunction_t Function;			/**< GPIO or PERIPH mode	*/
-	GpioDirection_t Direction;			/**< INPUT or OUTPUT	*/
-	GpioDigitalEn_t Digital;			/**< DISABLE or ENABLE	*/
-	GpioSense_t Sense;					/**< EDGE or LEVEL	*/
-	GpioBothEdges_t BothEdges;			/**< EVENT OR BOTH */
-	GpioEvent_t Event;					/**< DETECT_LO or DETECT_HI	*/
-	GpioClear_t Clear;					/**< NO_EFFECT or CLEAR_ISR */
-	GpioMask_t Mask;					/**< MASK or UNMASK */
+	GpioPortControl_t PControl;			/**< OFF or ON				*/
+	GpioDirection_t Direction;			/**< INPUT or OUTPUT		*/
+	GpioDigitalEn_t Digital;			/**< DISABLE or ENABLE		*/
+	GpioSense_t Sense;					/**< EDGE or LEVEL			*/
+	GpioBothEdges_t BothEdges;			/**< EVENT OR BOTH 			*/
+	GpioEvent_t Event;					/**< FALLING or RISING		*/
+	GpioClear_t Clear;					/**< NOFX or CLEAR			*/
+	GpioMask_t Mask;					/**< MASK or UNMASK 		*/
 } GpioConfig_t;
 
 /*************************************************************************
