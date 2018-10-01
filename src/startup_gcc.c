@@ -37,6 +37,11 @@ static void NmiSR(void);
 static void FaultISR(void);
 static void IntDefaultHandler(void);
 
+//*****************************************************************************
+//
+//	Forward declaration of specific handlers
+//
+//*****************************************************************************
 extern void GPIOD_Handler(void);
 
 //*****************************************************************************
