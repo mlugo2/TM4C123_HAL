@@ -11,6 +11,26 @@
 *	Module Variable Definitions
 *************************************************************************/
 
+uint32_t volatile * const portFunct[NUM_OF_PORTS] =
+{
+	(uint32_t*)&GPIO_PORTA_AFSEL_R,
+	(uint32_t*)&GPIO_PORTB_AFSEL_R,
+	(uint32_t*)&GPIO_PORTC_AFSEL_R,
+	(uint32_t*)&GPIO_PORTD_AFSEL_R,
+	(uint32_t*)&GPIO_PORTE_AFSEL_R,
+	(uint32_t*)&GPIO_PORTF_AFSEL_R,
+};
+
+uint32_t volatile * const portControl[NUM_OF_PORTS] = 
+{
+	(uint32_t*)&GPIO_PORTA_PCTL_R,
+	(uint32_t*)&GPIO_PORTB_PCTL_R,	
+	(uint32_t*)&GPIO_PORTC_PCTL_R,	
+	(uint32_t*)&GPIO_PORTD_PCTL_R,	
+	(uint32_t*)&GPIO_PORTE_PCTL_R,	
+	(uint32_t*)&GPIO_PORTF_PCTL_R,
+};
+
 /**
 *	Defines a table of pointers to the Port Data Register
 */
@@ -139,6 +159,26 @@ void Gpio_Init(GpioConfig_t * Config)
 	{
 		port_num = Config[i].Channel / NUM_OF_CHANNELS_PER_PORT;
 		pin_num = Config[i].Channel % NUM_OF_CHANNELS_PER_PORT;
+
+		// Set the Funciton register bit for this channel
+		if (Config[i].Function == PERIPH)
+		{
+			*portFunct[port_num] |= (1UL<<(pin_num));
+		}
+		else
+		{
+			*portFunct[port_num] &= ~(1UL<<(pin_num));
+		}
+
+		// Set the Port Control register bit for this channel
+		if (Config[i].PControl == ON)
+		{
+			*portControl[port_num] |= (1UL<<(pin_num));
+		}
+		else
+		{
+			*portControl[port_num] &= ~(1UL<<(pin_num));
+		}
 
 		// Set the Data-Direction register bit for this channel
 		if (Config[i].Direction == OUTPUT)
