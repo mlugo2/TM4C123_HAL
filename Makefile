@@ -12,9 +12,9 @@ TARGET = main
 # MCU: part number to build for
 MCU = TM4C123GH6PM
 # SOURCES: list of input source sources
-SOURCES = main.c startup_gcc.c Gpio_cfg.c Gpio.c
+SOURCES = main.c startup_gcc.c Gpio_cfg.c Gpio.c Uart_cfg.c Uart.c
 # INCLUDES: list of includes, by default, use Includes directory
-INCLUDES =  -Isrc/HAL/
+INCLUDES =  -Isrc/inc/
 # OUTDIR: directory to use for output
 OUTDIR = build
 # TIVAWARE_PATH: path to tivaware folder

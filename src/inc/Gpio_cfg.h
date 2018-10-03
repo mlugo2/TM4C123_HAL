@@ -18,19 +18,16 @@
 /**
 *	Defines the number of pins on each processor port
 */
-
 #define NUM_OF_CHANNELS_PER_PORT	8u
 
 /**
 *	Defines the number of ports on the processor.
 */
-
 #define NUM_OF_PORTS	6u
 
 /**
 *	Defines the total number of digital pins
 */
-
 #define NUM_DIGITAL_PINS	48u
 
 /*************************************************************************
@@ -40,7 +37,6 @@
 /**
 *	Defines the possible states for a digital output pin.
 */
-
 typedef enum
 {
 	GPIO_LOW,							// Defines digital state ground
@@ -53,7 +49,6 @@ typedef enum
 *	device. The last element is used to specify the maximum number of
 *	enumerated labels.
 */
-
 typedef enum
 {
 	PORTA_0,									/**< PORTA_0 */

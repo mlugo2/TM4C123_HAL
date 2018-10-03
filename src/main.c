@@ -1,4 +1,5 @@
-#include "HAL/Gpio.h"
+#include "Gpio.h"
+#include "Uart.h"
 
 #define SYSCTL_SYSDIV_10		0x04c00000
 
@@ -10,6 +11,7 @@
 #define SYSCTL_RCGC2_GPIOF	0x00000020
 
 extern GpioConfig_t GpioConfig[];
+extern UartConfig_t UartConfig[];
 
 void Enable_IRQ(void)
 {
@@ -31,6 +33,7 @@ int main(void)
 
 	// Configure GPIO
 	Gpio_Init(GpioConfig);
+	Uart_Init(UartConfig);
 	
 	// enable interrupt PD3 in NVIC and set priority to 3
 	NVIC_PRI0_R = 0x60000000;
