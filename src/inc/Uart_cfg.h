@@ -106,7 +106,7 @@ typedef struct
 	UartMaster_t Master;
 	UartControl_t Control;
 	uint32_t IntegerBRD;
-	uint32_t FractionalBRD;
+	uint32_t FractorialBRD;
 	UartWordLength_t WordLen;
 	UartStopBitSelect_t StopSel;
 	UartParity_t Parity;
