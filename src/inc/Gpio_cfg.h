@@ -118,16 +118,6 @@ typedef enum
 } GpioFunction_t;
 
 /**
-*	Defines the possible port control functions for each pin
-*/
-typedef enum
-{
-	OFF,
-	ON,
-	PORT_MAX
-} GpioPortControl_t;
-
-/**
 *	Defines the possible directions of a pin (input/output).
 */
 typedef enum
@@ -205,7 +195,6 @@ typedef struct
 {
 	GpioChannel_t Channel;				/**< The I/O pin			*/
 	GpioFunction_t Function;			/**< GPIO or PERIPH mode	*/
-	GpioPortControl_t PControl;			/**< OFF or ON				*/
 	GpioDirection_t Direction;			/**< INPUT or OUTPUT		*/
 	GpioDigitalEn_t Digital;			/**< DISABLE or ENABLE		*/
 	GpioSense_t Sense;					/**< EDGE or LEVEL			*/

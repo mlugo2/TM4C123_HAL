@@ -42,7 +42,7 @@ static void IntDefaultHandler(void);
 //	Forward declaration of specific handlers
 //
 //*****************************************************************************
-extern void GPIOD_Handler(void);
+//extern void GPIOD_Handler(void);
 
 //*****************************************************************************
 //
@@ -87,7 +87,7 @@ void (* const g_pfnVectors[])(void) =
     IntDefaultHandler,                      // GPIO Port A
     IntDefaultHandler,                      // GPIO Port B
     IntDefaultHandler,                      // GPIO Port C
-    GPIOD_Handler,                      // GPIO Port D
+    IntDefaultHandler,                      // GPIO Port D
     IntDefaultHandler,                      // GPIO Port E
     IntDefaultHandler,                      // UART0 Rx and Tx
     IntDefaultHandler,                      // UART1 Rx and Tx

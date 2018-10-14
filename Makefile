@@ -48,6 +48,7 @@ MKDIR	= mkdir -p
 OBJECTS = $(addprefix $(OUTDIR)/,$(notdir $(SOURCES:.c=.o)))
 
 # default: build bin
+all: clean
 all: $(OUTDIR)/$(TARGET).bin
 
 $(OUTDIR)/%.o: src/%.c | $(OUTDIR)

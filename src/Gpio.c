@@ -170,16 +170,6 @@ void Gpio_Init(GpioConfig_t * Config)
 			*portFunct[port_num] &= ~(1UL<<(pin_num));
 		}
 
-		// Set the Port Control register bit for this channel
-		if (Config[i].PControl == ON)
-		{
-			*portControl[port_num] |= (1UL<<(pin_num));
-		}
-		else
-		{
-			*portControl[port_num] &= ~(1UL<<(pin_num));
-		}
-
 		// Set the Data-Direction register bit for this channel
 		if (Config[i].Direction == OUTPUT)
 		{
