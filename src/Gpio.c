@@ -359,6 +359,6 @@ void Gpio_ChannelToggle(GpioChannel_t Channel)
 
 void Gpio_RegisterWrite(uint32_t Address, uint32_t Value)
 {
-	Address = Value;
+	(*((volatile uint32_t *)Address)) = Value;
 }
 

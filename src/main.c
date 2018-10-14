@@ -29,6 +29,9 @@ int main(void)
 	char s_data, chr[26];
 
 	Clock_Setup();
+	Gpio_Init(GpioConfig);
+	Gpio_RegisterWrite(&GPIO_PORTB_PCTL_R, 0x00000011);
+	// GPIO_PORTB_PCTL_R = 0x00000011;
 	UART_Init();
 
 	for(s_data='A'; s_data <= 'Z'; s_data++)
@@ -37,22 +40,15 @@ int main(void)
 		chr[num] = UART_Recieve();
 		num++;
 	}
-	
-	GPIO_PORTF_DATA_R = 0x4;
+
+	if (chr[0] == 'A')	
+		GPIO_PORTF_DATA_R = 0x4;
 
 	while(1);
 }
 
 void UART_Init(void)
 {
-	GPIO_PORTB_AFSEL_R = 0x03;
-	GPIO_PORTB_PCTL_R = 0x00000011;
-	GPIO_PORTB_DEN_R = 0x03;
-	GPIO_PORTB_DATA_R = 0x0;
-
-	GPIO_PORTF_DEN_R = 0xF;
-	GPIO_PORTF_DIR_R = 0xF;
-
 	UART1_CTL_R &= 0xFFFFFFFE;
 	UART1_IBRD_R = 0x8;
 	UART1_FBRD_R = 0x2C;
