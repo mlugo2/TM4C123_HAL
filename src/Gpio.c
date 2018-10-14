@@ -302,8 +302,8 @@ GpioPinState_t Gpio_ChannelRead(GpioChannel_t Channel)
 *
 *	\b Example:
 *	@code
-*		Gpio_WriteChannel(PORT1_0, LOW);
-*		Gpio_WriteChannel(PORT1_0, HIGH);
+*		Gpio_WriteChannel(PORTA_0, LOW);
+*		Gpio_WriteChannel(PORTA_0, HIGH);
 *	@endcode
 *
 *************************************************************************/
@@ -332,18 +332,33 @@ void Gpio_ChannelWrite(GpioChannel_t Channel, GpioPinState_t State)
 *
 *	POST-CONDITION:
 *
-* @param	Channel is the pin to write using GpioChannel_t
+* 	@param	Channel is the pin to write using GpioChannel_t
 *			that is to be modified.
 *
 *	@return	void.
 *
 *	\b Example:
 *	@code
-*		Gpio_ChannelToggle(PORT1_1);
+*		Gpio_ChannelToggle(PORTA_1);
 *	@endcode
 *
 *************************************************************************/
 void Gpio_ChannelToggle(GpioChannel_t Channel)
 {
+	GpioPinState_t state = Gpio_ChannelRead(Channel);
 	
+	if (state == GPIO_HIGH)
+	{
+		Gpio_ChannelWrite(Channel, GPIO_LOW);
+	}
+	else
+	{
+		Gpio_ChannelWrite(Channel, GPIO_HIGH);
+	}
 }
+
+void Gpio_RegisterWrite(uint32_t Address, uint32_t Value)
+{
+	Address = Value;
+}
+

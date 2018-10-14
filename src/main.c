@@ -25,7 +25,6 @@ char UART_Recieve(void);
 
 int main(void)
 {
-
 	uint8_t num = 0;
 	char s_data, chr[26];
 
