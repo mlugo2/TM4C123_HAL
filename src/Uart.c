@@ -72,7 +72,7 @@ void Uart_Init(UartConfig_t * Config)
 			continue;
 
 		// Disable UART[i] before configuring
-		*portUartControl[i] &= (0UL<<0);
+		*portUartControl[i] &= 0xFFFFFFFE;
 
 		// Set the integer baud rate
 		*integerBRD[i] = Config[i].IntegerBRD;
@@ -105,7 +105,7 @@ void Uart_Init(UartConfig_t * Config)
 		// Set the number of stop bits
 		if (Config[i].StopSel == ONE_STOPBIT)
 		{
-			*lineControl[i] &= (0UL<<3);
+			;//	*lineControl[i] &= (0UL<<3);
 		}
 		else
 		{
@@ -117,13 +117,13 @@ void Uart_Init(UartConfig_t * Config)
 		{
 			*lineControl[i] |= (1UL<<1);
 		}
-		else
+/*		else
 		{
 			*lineControl[i] &= ~(1UL<<1);
-		}
+		}*/
 
 		// Set Clock configuration
-		*clockConfig[i] &= 0xFFFFFFF0;
+		*clockConfig[i] = 0x0;
 		if (Config[i].Clock == PIOSC)
 		{
 			*clockConfig[i] |= 0x5;

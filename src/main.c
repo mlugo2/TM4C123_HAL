@@ -13,8 +13,8 @@
 #define SYSCTL_RCGC2_GPIOE	0x00000010
 #define SYSCTL_RCGC2_GPIOF	0x00000020
 
-extern GpioConfig_t GpioConfig[];
-extern UartConfig_t UartConfig[];
+//extern GpioConfig_t GpioConfig[];
+//extern UartConfig_t UartConfig[];
 
 void Enable_IRQ(void);
 void Clock_Setup(void);
@@ -29,10 +29,12 @@ int main(void)
 	char s_data, chr[26];
 
 	Clock_Setup();
-	Gpio_Init(GpioConfig);
+	Gpio_Init(Gpio_GetConfig());
 	Gpio_RegisterWrite(&GPIO_PORTB_PCTL_R, 0x00000011);
 	// GPIO_PORTB_PCTL_R = 0x00000011;
-	UART_Init();
+	
+	Uart_Init(Uart_GetConfig());
+//	UART_Init();
 
 	for(s_data='A'; s_data <= 'Z'; s_data++)
 	{
