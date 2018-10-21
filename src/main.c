@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include "inc/tm4c123gh6pm.h"
+#include "led_control.h"
 
 #define SYSCTL_SYSDIV_10	0x04c00000
 
@@ -12,9 +13,6 @@
 #define SYSCTL_RCGC2_GPIOD	0x00000008
 #define SYSCTL_RCGC2_GPIOE	0x00000010
 #define SYSCTL_RCGC2_GPIOF	0x00000020
-
-//extern GpioConfig_t GpioConfig[];
-//extern UartConfig_t UartConfig[];
 
 void Enable_IRQ(void);
 void Clock_Setup(void);
@@ -33,8 +31,9 @@ int main(void)
 	Gpio_RegisterWrite(&GPIO_PORTB_PCTL_R, 0x00000011);
 	// GPIO_PORTB_PCTL_R = 0x00000011;
 	
-	Uart_Init(Uart_GetConfig());
-//	UART_Init();
+	//Uart_Init(Uart_GetConfig());
+	UART_Init();
+	Enable_IRQ();
 
 	for(s_data='A'; s_data <= 'Z'; s_data++)
 	{
@@ -43,8 +42,8 @@ int main(void)
 		num++;
 	}
 
-	if (chr[0] == 'A')	
-		GPIO_PORTF_DATA_R = 0x4;
+//	if (chr[0] == 'A')	
+//		Blue_LED();
 
 	while(1);
 }
@@ -54,6 +53,9 @@ void UART_Init(void)
 	UART1_CTL_R &= 0xFFFFFFFE;
 	UART1_IBRD_R = 0x8;
 	UART1_FBRD_R = 0x2C;
+	UART1_IM_R = (1UL<<4);
+	UART1_ICR_R = (1UL<<4);
+	UART1_ICR_R |= (1UL<<5);
 	UART1_LCRH_R = 0x60;
 	UART1_CC_R = 0x0;
 	UART1_CTL_R |= 0x1;
@@ -106,4 +108,9 @@ void Clock_Setup(void)
 void GPIOD_Handler(void)
 {
 
+}
+
+void UART1_Handler(void)
+{
+	Red_LED();
 }
